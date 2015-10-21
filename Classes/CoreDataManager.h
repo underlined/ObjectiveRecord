@@ -30,6 +30,7 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (copy, nonatomic) NSString *databaseName;
+@property (copy, nonatomic) NSURL *databaseLocation;
 @property (copy, nonatomic) NSString *modelName;
 
 + (id)instance DEPRECATED_ATTRIBUTE;

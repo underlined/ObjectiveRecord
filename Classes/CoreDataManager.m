@@ -27,8 +27,8 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize databaseName = _databaseName;
+@synthesize databaseLocation = _databaseLocation;
 @synthesize modelName = _modelName;
-
 
 + (id)instance {
     return [self sharedManager];
@@ -55,6 +55,13 @@
 
     _databaseName = [[[self appName] stringByAppendingString:@".sqlite"] copy];
     return _databaseName;
+}
+
+- (NSURL *)databaseLocation {
+    if (_databaseLocation != nil) return _databaseLocation;
+    
+    _databaseLocation = [self isOSX] ? self.applicationSupportDirectory : self.applicationDocumentsDirectory;
+    return _databaseLocation;
 }
 
 - (NSString *)modelName {
@@ -144,7 +151,7 @@
 }
 
 - (NSURL *)sqliteStoreURL {
-    NSURL *directory = [self isOSX] ? self.applicationSupportDirectory : self.applicationDocumentsDirectory;
+    NSURL *directory = self.databaseLocation;
     NSURL *databaseDir = [directory URLByAppendingPathComponent:[self databaseName]];
 
     [self createApplicationSupportDirIfNeeded:directory];
